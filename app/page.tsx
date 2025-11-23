@@ -22,14 +22,13 @@ interface HistoryItem {
 
 type LanguageOption = 'python' | 'javascript' | 'cpp' | 'java' | 'csharp' | 'go' | 'rust';
 
-// Confirmation State Interface
 interface ConfirmationState {
   isOpen: boolean;
   type: 'single' | 'all' | null;
   id: number | null;
 }
 
-// Toast Interface
+
 interface ToastState {
   show: boolean;
   message: string;
@@ -37,7 +36,7 @@ interface ToastState {
 }
 
 export default function MiniCodeCopilot() {
-  // --- STATE ---
+
   const [prompt, setPrompt] = useState<string>('');
   const [language, setLanguage] = useState<LanguageOption>('python');
   const [responseCode, setResponseCode] = useState<string>('');
@@ -47,24 +46,23 @@ export default function MiniCodeCopilot() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [copied, setCopied] = useState<boolean>(false);
   
-  // Layout State
+
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(true);
   const [isOutputOpen, setIsOutputOpen] = useState<boolean>(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  // Settings State
+ 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [fontSize, setFontSize] = useState<number>(14);
   const [lineHeight, setLineHeight] = useState<number>(1.5);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(false);
 
-  // Modal & Toast State
   const [confirmation, setConfirmation] = useState<ConfirmationState>({ isOpen: false, type: null, id: null });
   const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
   const colors = darkMode ? THEME.dark : THEME.light;
 
-  // --- EFFECTS ---
+
   useEffect(() => {
     const saved = localStorage.getItem('copilot-history');
     if (saved) {
@@ -76,13 +74,13 @@ export default function MiniCodeCopilot() {
     localStorage.setItem('copilot-history', JSON.stringify(history));
   }, [history]);
 
-  // --- HELPERS ---
+
   const showToast = (message: string, type: 'success' | 'info' = 'success') => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
   };
 
-  // --- HANDLERS ---
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     if (!isOutputOpen) setIsOutputOpen(true);
@@ -136,18 +134,18 @@ export default function MiniCodeCopilot() {
     setHistory(prev => prev.map(item => item.id === id ? { ...item, isStarred: !item.isStarred } : item));
   };
 
-  // Trigger Modal for Single Delete
+
   const confirmDeleteSingle = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
     setConfirmation({ isOpen: true, type: 'single', id });
   };
 
-  // Trigger Modal for Clear All
+
   const confirmClearAll = () => {
     setConfirmation({ isOpen: true, type: 'all', id: null });
   };
 
-  // Execute Deletion
+
   const executeDelete = () => {
     if (confirmation.type === 'single' && confirmation.id) {
       setHistory(prev => prev.filter(item => item.id !== confirmation.id));
@@ -168,14 +166,14 @@ export default function MiniCodeCopilot() {
   return (
     <div className={`h-screen flex flex-col font-sans transition-colors duration-300 overflow-hidden ${colors.bg.main} ${colors.text.primary}`}>
       
-      {/* --- OVERLAYS & MODALS --- */}
+   
       
-      {/* Mobile Menu Overlay */}
+
       {mobileMenuOpen && (
         <div className={`fixed inset-0 z-40 md:hidden backdrop-blur-sm transition-opacity ${colors.bg.overlay}`} onClick={() => setMobileMenuOpen(false)} />
       )}
 
-      {/* Confirmation Modal */}
+   
       {confirmation.isOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className={`absolute inset-0 backdrop-blur-sm ${colors.bg.overlay}`} onClick={() => setConfirmation({ isOpen: false, type: null, id: null })} />
@@ -211,7 +209,7 @@ export default function MiniCodeCopilot() {
         </div>
       )}
 
-      {/* Toast Notification */}
+   
       {toast.show && (
         <div className="fixed bottom-6 right-6 z-[70] animate-in slide-in-from-bottom-5 fade-in duration-300">
           <div className={`flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl border ${darkMode ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-zinc-200'}`}>
@@ -221,7 +219,7 @@ export default function MiniCodeCopilot() {
         </div>
       )}
 
-      {/* --- HEADER --- */}
+     
       <header className={`flex-none flex items-center justify-between px-4 md:px-6 py-3 border-b z-30 ${colors.bg.header} ${colors.border.base}`}>
         <div className="flex items-center gap-4">
           {!isHistoryOpen && (
@@ -284,10 +282,10 @@ export default function MiniCodeCopilot() {
         </div>
       </header>
 
-      {/* --- MAIN LAYOUT --- */}
+
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Sidebar */}
+ 
         <aside className={`${isHistoryOpen ? 'w-72 border-r' : 'w-0 border-none'} ${mobileMenuOpen ? 'fixed inset-y-0 left-0 z-50 w-72 border-r' : 'relative'} flex flex-col flex-none transition-all duration-300 ease-in-out overflow-hidden ${colors.bg.sidebar} ${colors.border.base}`}>
           <div className="p-4 space-y-4 min-w-[288px]">
             <div className="flex justify-between items-center px-1">
@@ -348,15 +346,15 @@ export default function MiniCodeCopilot() {
           </div>
         </aside>
 
-        {/* Content Wrapper */}
+ 
         <main className="flex-1 flex min-w-0 relative">
           
-          {/* Input Column */}
+        
           <div className={`flex-1 flex flex-col min-w-0 ${colors.bg.main}`}>
             <div className="flex-1 overflow-y-auto p-4 md:p-8">
               <div className="max-w-2xl mx-auto space-y-6 md:space-y-8 pt-4">
                 <div className="space-y-1">
-                  <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${colors.text.primary}`}>What do you want to build?</h2>
+                  <h2 className={`text-2xl md:text-3xl font-bold tracking-tight ${colors.text.primary}`}>Generate Code</h2>
                   <p className={colors.text.secondary}>Describe your logic, select a language, and let AI write the code.</p>
                 </div>
 
@@ -393,10 +391,10 @@ export default function MiniCodeCopilot() {
             </div>
           </div>
 
-          {/* Output Column */}
+      
           <div className={`${isOutputOpen ? 'flex-1 border-l' : 'w-0 border-none opacity-0'} flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${colors.border.base} ${colors.bg.main}`}>
             
-            {/* Output Header */}
+           
             <div className={`flex-none px-6 py-4 border-b flex justify-between items-center min-w-[300px] ${colors.border.base} ${colors.bg.card}`}>
               <div className="flex items-center gap-2">
                 <Terminal className={`w-5 h-5 ${colors.text.accent}`} />
@@ -415,12 +413,12 @@ export default function MiniCodeCopilot() {
               </div>
             </div>
 
-            {/* Output Content */}
+          
             <div className={`flex-1 overflow-hidden p-4 md:p-6 min-w-[300px] ${darkMode ? 'bg-zinc-950/30' : 'bg-zinc-50/50'}`}>
               {responseCode ? (
                 <div className="flex flex-col h-full w-full relative group animate-in fade-in slide-in-from-bottom-4 duration-500 shadow-2xl rounded-xl overflow-hidden bg-[#1e1e1e] border border-[#2b2b2b]">
                   
-                  {/* Window Header */}
+               
                   <div className="flex-none px-4 py-3 flex items-center justify-between select-none bg-[#1e1e1e] border-b border-[#2b2b2b] z-10">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56cc]" />
@@ -433,7 +431,7 @@ export default function MiniCodeCopilot() {
                     <div className="w-10" /> 
                   </div>
                   
-                  {/* Window Body */}
+                 
                   <div className="flex-1 overflow-auto p-6">
                     <CodeViewer code={responseCode} language={language} fontSize={fontSize} lineHeight={lineHeight} />
                   </div>

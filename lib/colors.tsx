@@ -1,15 +1,15 @@
 export const THEME = {
-  // LIGHT MODE COLORS 
+  // LIGHT MODE
   light: {
     bg: {
-      main: 'bg-zinc-50',          // Main app background
-      header: 'bg-white/80',       // Glassmorphism header
-      sidebar: 'bg-white',         // Sidebar background
-      card: 'bg-white',            // Cards/Input areas
-      input: 'bg-white',           // Textareas and Inputs
+      main: 'bg-zinc-50',         
+      header: 'bg-white/80',       
+      sidebar: 'bg-white',         
+      card: 'bg-white',           
+      input: 'bg-white',           
       codeWindowHeader: 'bg-zinc-100',
       codeWindowBody: 'bg-white',
-      overlay: 'bg-black/20',      // Mobile sidebar backdrop
+      overlay: 'bg-black/20',    
       popover: 'bg-white',
       modal: 'bg-white',
     },
@@ -42,7 +42,7 @@ export const THEME = {
     }
   },
 
-  // DARK MODE COLORS
+  // DARK MODE
   dark: {
     bg: {
       main: 'bg-zinc-950',
@@ -50,8 +50,8 @@ export const THEME = {
       sidebar: 'bg-zinc-900',
       card: 'bg-zinc-900',
       input: 'bg-zinc-900',
-      codeWindowHeader: 'bg-[#252526]', // VS Code style header
-      codeWindowBody: 'bg-[#1e1e1e]',   // VS Code style body
+      codeWindowHeader: 'bg-[#252526]', 
+      codeWindowBody: 'bg-[#1e1e1e]',   
       overlay: 'bg-black/50',
       popover: 'bg-zinc-800',
       modal: 'bg-zinc-900',

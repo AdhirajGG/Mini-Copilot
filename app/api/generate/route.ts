@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-// 1. Define types for our Mock Database
+
 interface MockResponseMap {
   [key: string]: string;
 }
@@ -9,7 +9,6 @@ interface MockDatabase {
   [language: string]: MockResponseMap;
 }
 
-// 2. Hardcoded "AI" responses
 const MOCK_DB: MockDatabase = {
   python: {
     "reverse string": "def reverse_string(s):\n    return s[::-1]\n\n# Usage\nprint(reverse_string('hello'))",
@@ -59,7 +58,7 @@ const MOCK_DB: MockDatabase = {
   }
 };
 
-// 3. The API Handler
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -69,7 +68,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing prompt or language' }, { status: 400 });
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Faster response for better UX
+    await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
     const langKey = language.toLowerCase();
     const promptKey = prompt.toLowerCase();
