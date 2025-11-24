@@ -169,6 +169,7 @@ export default function MiniCodeCopilot() {
    
       
 
+
       {mobileMenuOpen && (
         <div className={`fixed inset-0 z-40 md:hidden backdrop-blur-sm transition-opacity ${colors.bg.overlay}`} onClick={() => setMobileMenuOpen(false)} />
       )}
@@ -241,6 +242,17 @@ export default function MiniCodeCopilot() {
         </div>
         
         <div className="flex items-center gap-2 relative">
+          {/* NEW: Open Output button (appears when output is collapsed) */}
+          {!isOutputOpen && (
+            <button 
+              onClick={() => setIsOutputOpen(true)}
+              className={`p-2 rounded-lg transition-all ${colors.interactive.secondaryBtn}`}
+              title="Open Output"
+            >
+              <PanelRightOpen className="w-5 h-5" />
+            </button>
+          )}
+
           <button 
             onClick={() => setShowSettings(!showSettings)}
             className={`p-2 rounded-lg transition-all duration-200 ${showSettings ? 'bg-indigo-100 text-indigo-600' : colors.interactive.secondaryBtn}`}
@@ -431,7 +443,7 @@ export default function MiniCodeCopilot() {
                     <div className="w-10" /> 
                   </div>
                   
-                 
+
                   <div className="flex-1 overflow-auto p-6">
                     <CodeViewer code={responseCode} language={language} fontSize={fontSize} lineHeight={lineHeight} />
                   </div>
@@ -450,13 +462,6 @@ export default function MiniCodeCopilot() {
               )}
             </div>
           </div>
-
-          {!isOutputOpen && responseCode && (
-            <button onClick={() => setIsOutputOpen(true)} className="absolute right-6 top-6 p-3 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-all animate-in fade-in zoom-in" title="Show Output">
-              <PanelRightOpen className="w-5 h-5" />
-            </button>
-          )}
-
         </main>
       </div>
     </div>
